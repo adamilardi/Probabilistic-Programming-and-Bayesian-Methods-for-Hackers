@@ -60,7 +60,9 @@ class GeneralBanditStrat( object ):
             choices[ k ] = choice
             
         self.score = np.r_[ self.score, score ]
+        # print choices, 'choice'
         self.choices = np.r_[ self.choices, choices ]
+        # print self.choices, 'choice'
         return 
         
 	
@@ -86,6 +88,27 @@ def upper_credible_choice( self ):
     a = self.wins + 1
     b = self.trials - self.wins + 1
     return np.argmax( lb(a,b) )
+
+def ucb1( self ):
+    a = self.wins + 1
+    b = self.trials - self.wins + 1
+    trials = self.trials + 1
+
+    # print trials, np.sum(trials)
+    # total_trials = np.sum(self.trials)+1
+    total_trials = np.sum(trials)
+
+    # print a, 'wins'
+    # print b, 'trials'
+    # print c, 'losses'
+    win_rate = a/trials
+    if total_trials % 10000 == 0:
+        print win_rate, 'estimates', max(win_rate), 'best bandit'
+    # print avg, 'avg'
+    # print total_trials
+    confidence = 2 * np.log(total_trials) / trials
+    # print np.argmax( avg + np.sqrt(bla) ), 'my choice'
+    return np.argmax( win_rate + np.sqrt(confidence) )
     
 def random_choice( self):
     return np.random.randint( 0, len( self.wins ) )
