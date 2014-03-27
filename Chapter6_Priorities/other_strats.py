@@ -89,31 +89,24 @@ def upper_credible_choice( self ):
     b = self.trials - self.wins + 1
     return np.argmax( lb(a,b) )
 
+"""
+This is a frequentist method for comparison
+"""
 def ucb1( self ):
-    a = self.wins + 1
-    b = self.trials - self.wins + 1
+    wins = self.wins + 1
     trials = self.trials + 1
 
-    # print trials, np.sum(trials)
-    # total_trials = np.sum(self.trials)+1
     total_trials = np.sum(trials)
 
-    # print a, 'wins'
-    # print b, 'trials'
-    # print c, 'losses'
-    win_rate = a/trials
-    if total_trials % 10000 == 0:
-        print win_rate, 'estimates', max(win_rate), 'best bandit'
-    # print avg, 'avg'
-    # print total_trials
-    confidence = 2 * np.log(total_trials) / trials
-    # print np.argmax( avg + np.sqrt(bla) ), 'my choice'
+    win_rate = wins/trials
+    confidence = (2 * np.log(total_trials)) / trials
     return np.argmax( win_rate + np.sqrt(confidence) )
-    
+
+
 def random_choice( self):
     return np.random.randint( 0, len( self.wins ) )
     
-    
+
 def ucb_bayes( self ):
 	C = 0
 	n = 10000
